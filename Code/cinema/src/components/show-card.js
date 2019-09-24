@@ -1,5 +1,6 @@
 import React, {Component, useState} from "react";
 import Moment from 'react-moment';
+import moment from 'moment';
 
 import TimeAgo from "react-timeago";
 import frenchStrings from 'react-timeago/lib/language-strings/fr'
@@ -39,6 +40,7 @@ class ShowCard extends Component {
     isLoadingShowTimes: false,
     show: null,
     showTimes: [],
+    day: moment(new Date()),
     isLoading: true,
     errors: null
   };
@@ -63,7 +65,7 @@ class ShowCard extends Component {
 
   setShowTimes = () => {
     console.log('ici')
-    fetch("/.netlify/functions/getShowTimes?slug=" + this.props.show.name + "&day=2019-09-25")
+    fetch("/.netlify/functions/getShowTimes?slug=" + this.props.show.name + "&day=" + this.state.day.format('YYYY-MM-DD'))
       .then(response => response.json())
       .then(response => this.setState({
         isLoadingShowTimes: false,
@@ -89,7 +91,7 @@ class ShowCard extends Component {
           justify="between"
         >
           <Box>
-            <Heading level="3" margin="none" truncate>
+            <Heading level="3" margin="none" truncate color={"accent-1"}>
               {show.title}
             </Heading>
             <Text color="dark-2" size="small" truncate>
@@ -110,9 +112,9 @@ class ShowCard extends Component {
             <Box
               round="xsmall"
               pad={{vertical: "xxsmall", horizontal: "medium"}}
-              background="brand"
+              background="accent-1"
             >
-              <Text size="xsmall">
+              <Text size="xsmall" color={"light-1"}>
                 <Moment format="DD/MM/YYYY">{show.releaseAt}</Moment>
               </Text>
             </Box>
@@ -148,7 +150,7 @@ class ShowCard extends Component {
               onClick={this.setShowTimes}
             >
               <Box round="small">
-                <Text color="brand" size="small">
+                <Text color="accent-1" size="small">
                   <strong>Séances</strong>
                 </Text>
               </Box>
@@ -173,7 +175,7 @@ class ShowCard extends Component {
     );
   };
   renderShowReviews = () => {
-    const {show, showTimes, showReviews, isLoadingShowTimes} = this.state;
+    const {show, showTimes, showReviews, isLoadingShowTimes, day} = this.state;
     console.log(showTimes)
     return (
       <Collapsible open={showReviews}>
@@ -183,19 +185,28 @@ class ShowCard extends Component {
           overflow="auto"
           pad="small"
         >
+          <Heading level="3" margin="none">
+            <Moment format="DD/MM/YYYY">{day}</Moment>
+          </Heading>
           {
             showTimes.map((showtime, index) => (
-              <Box key={index} flex={false}>
-                <Heading level="4" margin="none">
-                  <Moment format="DD/MM/YYYY HH:mm">{showtime.time}</Moment>
-                  <Button alignSelf='end' label='Submit' onClick={() => {}} />
-
-                </Heading>
-                <Text size="small" color="dark-5">
-                  <TimeAgo date={showtime.time} formatter={formatter}/>
-                </Text>
-                {/*<Rating value={rating} size="small" margin={{ top: "small" }} />*/}
-                {/*<Paragraph size="small">{comment}</Paragraph>*/}
+              <Box key={index} justify="between" pad={{vertical: 'medium'}}
+                   direction="row" border={{color: 'dark', size: 'large'}}
+              >
+                <Box>
+                  <Heading level="4" margin="none">
+                    <Moment format="HH:mm">{showtime.time}</Moment>
+                  </Heading>
+                  <Text size="small" color="dark-5">
+                    <TimeAgo date={showtime.time} formatter={formatter}/>
+                  </Text>
+                </Box>
+                <Box align="end">
+                  <Button target={"_blank"} color={"accent-1"} gap={"xxsmall"
+                  } href={showtime.refCmd}
+                          label='Réserver' onClick={() => {
+                  }}/>
+                </Box>
               </Box>
             ))
           }

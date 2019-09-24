@@ -21,7 +21,7 @@ class ShowList extends Component {
   };
 
   render() {
-    const shows = this.props.shows.reverse().slice(0,1);
+    const shows = this.props.shows.reverse().slice(0,2);
     // const shows = this.props.shows.reverse();
     return (
       <ResponsiveContext.Consumer>
