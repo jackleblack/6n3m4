@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, { Component, useState} from "react";
 import TimeAgo from "react-timeago";
 import styled, { css } from "styled-components";
+import Moment from 'react-moment';
 
 import {
   Box,
@@ -29,9 +30,29 @@ const CardFavorite = styled(Favorite)`
 
 class ShowCard extends Component {
   state = {
-    showReviews: false
+    showReviews: false,
+    show: null,
+    isLoading: true,
+    errors: null
   };
 
+  componentDidMount() {
+   this.setShowDetail();
+  }
+
+  componentDidUpdate() {
+    // this.setShowDetail();
+  }
+
+  setShowDetail(){
+    if (this.props.show.name && !this.state.show){
+      fetch("/.netlify/functions/getShow?slug="+this.props.show.name)
+        .then(response => response.json())
+        .then(response => this.setState({ isLoading: false, show: response.result }))
+        // Catch any errors we hit and update the app
+        .catch(error => this.setState({ error, isLoading: false }));
+    }
+  }
 
   renderCardHeader = () => {
     const { show } = this.state;
@@ -48,11 +69,14 @@ class ShowCard extends Component {
           justify="between"
         >
           <Box>
-            <Heading level="3" margin="none">
+            <Heading level="3" margin="none" truncate>
               {show.title}
             </Heading>
-            <Text color="dark-5" size="small">
-              {show.cusine} &#8226; {show.price}
+            <Text color="dark-2" size="small" truncate>
+              {show.directors} &#8226; {show.genres}
+            </Text>
+            <Text color="dark-5" size="small" truncate>
+              {show.actors}
             </Text>
           </Box>
           {totalRating ? (
@@ -68,7 +92,9 @@ class ShowCard extends Component {
               pad={{ vertical: "xxsmall", horizontal: "medium" }}
               background="brand"
             >
-              <Text size="xsmall">NEW</Text>
+              <Text size="xsmall">
+                <Moment format="DD/MM/YYYY">{show.releaseAt}</Moment>
+              </Text>
             </Box>
           )}
         </Box>
@@ -78,13 +104,14 @@ class ShowCard extends Component {
           margin={{ vertical: "small" }}
           truncate
         >
-          {show.description}
+          {show.synopsis}
         </Text>
       </Box>
     );
   };
   renderCardFooter = () => {
-    const { onClickFavorite, show } = this.props;
+    const { show, showReviews } = this.state;
+    const { onClickFavorite } = this.props;
     const hasReviews = show.reviews && show.reviews.length;
     return (
       <ThemeContext.Consumer>
@@ -132,8 +159,7 @@ class ShowCard extends Component {
     );
   };
   renderShowReviews = () => {
-    const { show } = this.props;
-    const { showReviews } = this.state;
+    const { show, showReviews } = this.state;
     return (
       <Collapsible open={showReviews}>
         <Box
@@ -159,12 +185,17 @@ class ShowCard extends Component {
     );
   };
   render() {
-    const { show = {}, onClickFavorite, ...rest } = this.props;
+    const { show, isLoading } = this.state;
+    if (isLoading) {
+      return <p>Loading ...</p>;
+    }
+    const { onClickFavorite, ...rest } = this.props;
     const hasReviews = show.reviews && show.reviews.length;
+    console.log(show.title)
     return (
       <Box round="xxsmall" elevation="small" overflow="hidden" {...rest}>
-        <Box height="small">
-          <Image src={show.image} fit="cover" />
+        <Box height="big">
+          <Image src={show.posterPath.lg} fit="contain" />
         </Box>
         {this.renderCardHeader()}
         {hasReviews && this.renderShowReviews()}

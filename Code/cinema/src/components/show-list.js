@@ -7,30 +7,10 @@ import {ShowCard} from "./";
 
 class ShowList extends Component {
   state = {
-    shows: this.props.shows ,
-    showsWithDetail: [],
+    shows: this.props.shows,
     isLoading: true,
     errors: null
   };
-
-
-  componentDidMount() {
-    // const {shows} = this.props;
-    //
-    // this.setState({isLoading: true});
-    // console.log('eee');
-    // console.log(this.state.shows);
-    // var showsDetail = [];
-    // for (var show in this.props.shows) {
-    //   var detail = fetch("/.netlify/functions/getShow?slug=" + 'ad-astra')
-    //     .then(response => { response.json()
-    //       .then(console.log);
-    //     });
-    //   showsDetail.push(detail);
-    // }
-    // this.setState({isLoading: false, showsWithDetail: showsDetail});
-    // console.log(this.props);
-  }
 
   updateFavorite = index => {
     const {shows} = this.state;
@@ -41,8 +21,8 @@ class ShowList extends Component {
   };
 
   render() {
-    const {showsWithDetail} = this.state;
-    const shows = this.props.shows;
+    // const shows = this.props.shows.reverse().slice(0,1);
+    const shows = this.props.shows.reverse();
     return (
       <ResponsiveContext.Consumer>
         {size => (
@@ -51,15 +31,11 @@ class ShowList extends Component {
             columns={size !== "small" && {count: "fill", size: "medium"}}
             gap="medium"
           >
-            {/*{showsWithDetail.map(function(show, index){*/}
-            {/*  return <li key={ index }>{show.name}</li>;*/}
-            {/*})}*/}
-            { Object.keys(shows).map(name => (
+            {shows.map((show, index) => (
               <ShowCard
-                key={name}
-                title={name}
-                show={shows[name]}
-                onClickFavorite={() => this.updateFavorite(name)}
+                key={index}
+                show={show}
+                onClickFavorite={() => this.updateFavorite(index)}
               />
             ))}
           </Grid>

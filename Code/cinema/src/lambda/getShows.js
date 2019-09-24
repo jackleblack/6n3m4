@@ -5,11 +5,21 @@ import axios from "axios"
 export async function handler(event, context) {
   try {
     const response = await axios.get("https://www.cinemaspathegaumont.com/api/cinema/cinema-pathe-plan-de-campagne/shows", { headers: { Accept: "application/json" } })
-    const data = response.data
+    const shows = response.data.shows
+    var result = Object.keys(shows)
+      .map(function(key) {
+        return {
+          name: key,
+          ...shows[key]
+        };
+      });
+
+    // console.log(result);
     return {
-      statusCode: 200,
-      body: JSON.stringify({ result: data.shows })
-    }
+        statusCode: 200,
+        body: JSON.stringify({ result : result })
+      }
+
   } catch (err) {
     console.log(err) // output to netlify function log
     return {
