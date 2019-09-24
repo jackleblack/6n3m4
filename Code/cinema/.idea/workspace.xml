@@ -70,7 +70,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1568993400707</updated>
-      <workItem from="1568993402191" duration="37898000" />
+      <workItem from="1568993402191" duration="37933000" />
     </task>
     <servers />
   </component>
@@ -94,7 +94,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/components/show-card.js</url>
-          <line>196</line>
+          <line>195</line>
           <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="9" />
         </line-breakpoint>
