@@ -31,7 +31,9 @@ const CardFavorite = styled(Favorite)`
 class ShowCard extends Component {
   state = {
     showReviews: false,
+    isLoadingShowtime: false,
     show: null,
+    showtimes: null,
     isLoading: true,
     errors: null
   };
@@ -51,6 +53,16 @@ class ShowCard extends Component {
         .then(response => this.setState({ isLoading: false, show: response.result }))
         // Catch any errors we hit and update the app
         .catch(error => this.setState({ error, isLoading: false }));
+    }
+  }
+
+  setShowTime(){
+    if (this.props.show.name && !this.state.show){
+      fetch("/.netlify/functions/getShowtime?slug="+this.props.show.name+"day=2019-09-24")
+        .then(response => response.json())
+        .then(response => this.setState({ isLoadingShowtime: false, showtimes: response.result }))
+        // Catch any errors we hit and update the app
+        .catch(error => this.setState({ error, isLoadingShowtime: false }));
     }
   }
 
@@ -123,7 +135,6 @@ class ShowCard extends Component {
             justify="between"
             pad={{ left: "small", vertical: "small" }}
           >
-            {hasReviews ? (
               <Button
                 a11yTitle={`Reviews for ${show.name}`}
                 onClick={() =>
@@ -136,9 +147,7 @@ class ShowCard extends Component {
                   </Text>
                 </Box>
               </Button>
-            ) : (
-              <span />
-            )}
+            )
             {onClickFavorite && (
               <Button
                 margin={{ right: "small" }}
@@ -198,7 +207,7 @@ class ShowCard extends Component {
           <Image src={show.posterPath.lg} fit="contain" />
         </Box>
         {this.renderCardHeader()}
-        {hasReviews && this.renderShowReviews()}
+        {this.renderShowReviews()}
 
         {(hasReviews || onClickFavorite) && this.renderCardFooter()}
       </Box>
