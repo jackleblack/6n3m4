@@ -1,6 +1,8 @@
 // export * from "./restaurant-card";
 // export * from "./restaurant-list";
 export * from "./Spinner";
+export * from "./AppHeader";
+
 
 export * from "./cinema-card";
 

@@ -20,7 +20,7 @@ import {
 
 import {Favorite} from "grommet-icons";
 
-import {Rating} from "../components";
+import  {Spinner,Rating} from "../components";
 
 const formatter = buildFormatter(frenchStrings)
 
@@ -79,8 +79,6 @@ class ShowCard extends Component {
   renderCardHeader = () => {
     const {show} = this.state;
     let totalRating = undefined;
-    // const hasReviews = show.reviews && show.reviews.length;
-    const hasReviews = 0;
 
     return (
       <Box pad={{horizontal: "small"}}>
@@ -134,7 +132,6 @@ class ShowCard extends Component {
   renderCardFooter = () => {
     const {show, showReviews} = this.state;
     const {onClickFavorite} = this.props;
-    const hasReviews = show.reviews && show.reviews.length;
     return (
       <ThemeContext.Consumer>
         {theme => (
@@ -150,7 +147,7 @@ class ShowCard extends Component {
               onClick={this.setShowTimes}
             >
               <Box round="small">
-                <Text color="accent-1" size="small">
+                <Text color="accent-2" size="small">
                   <strong>Séances</strong>
                 </Text>
               </Box>
@@ -202,7 +199,7 @@ class ShowCard extends Component {
                   </Text>
                 </Box>
                 <Box align="end">
-                  <Button target={"_blank"} color={"accent-1"} gap={"xxsmall"
+                  <Button target={"_blank"} color={"accent-2"} gap={"xxsmall"
                   } href={showtime.refCmd}
                           label='Réserver' onClick={() => {
                   }}/>
@@ -218,20 +215,19 @@ class ShowCard extends Component {
   render() {
     const {show, isLoading} = this.state;
     if (isLoading) {
-      return <p>Loading ...</p>;
+      return <Spinner/>;
     }
     const {onClickFavorite, ...rest} = this.props;
-    const hasReviews = show.reviews && show.reviews.length;
-    console.log(show.title)
     return (
-      <Box round="xxsmall" elevation="small" overflow="hidden" {...rest}>
+      <Box width="360px" animation={["fadeIn",  "slideDown"]} round="xsmall" elevation="large" overflow="hidden" {...rest}  border={{ color: 'accent-1', size: 'medium', side: 'bottom' }}
+      >
         <Box height="big">
-          <Image src={show.posterPath.lg} fit="contain"/>
+          <Image src={show.posterPath.lg} fit="contain" />
         </Box>
         {this.renderCardHeader()}
         {this.renderShowReviews()}
 
-        {(hasReviews || onClickFavorite) && this.renderCardFooter()}
+        {( onClickFavorite) && this.renderCardFooter()}
       </Box>
     );
   }

@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {render} from "react-dom";
 
-import {grommet, Grid, Grommet, ResponsiveContext, Box} from "grommet";
+import {grommet, Grid, Grommet, ResponsiveContext, Box, Heading} from "grommet";
 
-import {ShowList} from "./";
+import {ShowList,AppHeader} from "./";
 
 class CinemaCard extends Component {
   state = {
@@ -22,8 +22,7 @@ class CinemaCard extends Component {
 
   render() {
     return (
-      <Box fill background="light-1">
-        <h1>Cinema Plan de campagne</h1>
+      <Box fill>
         <ShowList shows={this.state.shows}/>
       </Box>
     );
