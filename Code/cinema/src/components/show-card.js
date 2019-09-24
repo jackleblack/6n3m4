@@ -1,7 +1,10 @@
-import React, { Component, useState} from "react";
-import TimeAgo from "react-timeago";
-import styled, { css } from "styled-components";
+import React, {Component, useState} from "react";
 import Moment from 'react-moment';
+
+import TimeAgo from "react-timeago";
+import frenchStrings from 'react-timeago/lib/language-strings/fr'
+import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
+import styled, {css} from "styled-components";
 
 import {
   Box,
@@ -14,9 +17,11 @@ import {
   ThemeContext
 } from "grommet";
 
-import { Favorite } from "grommet-icons";
+import {Favorite} from "grommet-icons";
 
-import { Rating } from "../components";
+import {Rating} from "../components";
+
+const formatter = buildFormatter(frenchStrings)
 
 const filledIcon = css`
   path[fill="none"] {
@@ -31,51 +36,54 @@ const CardFavorite = styled(Favorite)`
 class ShowCard extends Component {
   state = {
     showReviews: false,
-    isLoadingShowtime: false,
+    isLoadingShowTimes: false,
     show: null,
-    showtimes: null,
+    showTimes: [],
     isLoading: true,
     errors: null
   };
 
   componentDidMount() {
-   this.setShowDetail();
+    this.setShowDetail();
   }
 
   componentDidUpdate() {
     // this.setShowDetail();
   }
 
-  setShowDetail(){
-    if (this.props.show.name && !this.state.show){
-      fetch("/.netlify/functions/getShow?slug="+this.props.show.name)
+  setShowDetail() {
+    if (this.props.show.name && !this.state.show) {
+      fetch("/.netlify/functions/getShow?slug=" + this.props.show.name)
         .then(response => response.json())
-        .then(response => this.setState({ isLoading: false, show: response.result }))
+        .then(response => this.setState({isLoading: false, show: response.result}))
         // Catch any errors we hit and update the app
-        .catch(error => this.setState({ error, isLoading: false }));
+        .catch(error => this.setState({error, isLoading: false}));
     }
   }
 
-  setShowTime(){
-    if (this.props.show.name && !this.state.show){
-      fetch("/.netlify/functions/getShowtime?slug="+this.props.show.name+"day=2019-09-24")
-        .then(response => response.json())
-        .then(response => this.setState({ isLoadingShowtime: false, showtimes: response.result }))
-        // Catch any errors we hit and update the app
-        .catch(error => this.setState({ error, isLoadingShowtime: false }));
-    }
+  setShowTimes = () => {
+    console.log('ici')
+    fetch("/.netlify/functions/getShowTimes?slug=" + this.props.show.name + "&day=2019-09-25")
+      .then(response => response.json())
+      .then(response => this.setState({
+        isLoadingShowTimes: false,
+        showTimes: response.result,
+        showReviews: !this.state.showReviews
+      }))
+      // Catch any errors we hit and update the app
+      .catch(error => this.setState({error, isLoadingShowTimes: false}));
   }
 
   renderCardHeader = () => {
-    const { show } = this.state;
+    const {show} = this.state;
     let totalRating = undefined;
     // const hasReviews = show.reviews && show.reviews.length;
     const hasReviews = 0;
 
     return (
-      <Box pad={{ horizontal: "small" }}>
+      <Box pad={{horizontal: "small"}}>
         <Box
-          margin={{ top: "small" }}
+          margin={{top: "small"}}
           direction="row"
           align="center"
           justify="between"
@@ -93,7 +101,7 @@ class ShowCard extends Component {
           </Box>
           {totalRating ? (
             <Box align="end" justify="betwen" gap="xsmall">
-              <Rating value={totalRating} />
+              <Rating value={totalRating}/>
               <Text color="dark-5" size="xsmall">
                 {totalRating} {`(${show.reviews.length})`}
               </Text>
@@ -101,7 +109,7 @@ class ShowCard extends Component {
           ) : (
             <Box
               round="xsmall"
-              pad={{ vertical: "xxsmall", horizontal: "medium" }}
+              pad={{vertical: "xxsmall", horizontal: "medium"}}
               background="brand"
             >
               <Text size="xsmall">
@@ -113,7 +121,7 @@ class ShowCard extends Component {
         <Text
           size="small"
           color="dark-5"
-          margin={{ vertical: "small" }}
+          margin={{vertical: "small"}}
           truncate
         >
           {show.synopsis}
@@ -122,8 +130,8 @@ class ShowCard extends Component {
     );
   };
   renderCardFooter = () => {
-    const { show, showReviews } = this.state;
-    const { onClickFavorite } = this.props;
+    const {show, showReviews} = this.state;
+    const {onClickFavorite} = this.props;
     const hasReviews = show.reviews && show.reviews.length;
     return (
       <ThemeContext.Consumer>
@@ -133,24 +141,21 @@ class ShowCard extends Component {
             direction="row"
             align="center"
             justify="between"
-            pad={{ left: "small", vertical: "small" }}
+            pad={{left: "small", vertical: "small"}}
           >
-              <Button
-                a11yTitle={`Reviews for ${show.name}`}
-                onClick={() =>
-                  this.setState({ showReviews: !this.state.showReviews })
-                }
-              >
-                <Box round="small">
-                  <Text color="brand" size="small">
-                    <strong>REVIEWS</strong>
-                  </Text>
-                </Box>
-              </Button>
-            )
+            <Button
+              a11yTitle={`Reviews for ${show.name}`}
+              onClick={this.setShowTimes}
+            >
+              <Box round="small">
+                <Text color="brand" size="small">
+                  <strong>Séances</strong>
+                </Text>
+              </Box>
+            </Button>
             {onClickFavorite && (
               <Button
-                margin={{ right: "small" }}
+                margin={{right: "small"}}
                 a11yTitle={`Favorite ${show.name}`}
                 onClick={onClickFavorite}
               >
@@ -168,43 +173,49 @@ class ShowCard extends Component {
     );
   };
   renderShowReviews = () => {
-    const { show, showReviews } = this.state;
+    const {show, showTimes, showReviews, isLoadingShowTimes} = this.state;
+    console.log(showTimes)
     return (
       <Collapsible open={showReviews}>
         <Box
-          style={{ maxHeight: "240px" }}
+          style={{maxHeight: "240px"}}
           border="top"
           overflow="auto"
           pad="small"
         >
-          {show.reviews.map(({ comment, name, rating, date }) => (
-            <Box key={`${name}_${date}`} flex={false}>
-              <Heading level="4" margin="none">
-                {name}
-              </Heading>
-              <Text size="small" color="dark-5">
-                <TimeAgo date={date} />
-              </Text>
-              <Rating value={rating} size="small" margin={{ top: "small" }} />
-              <Paragraph size="small">{comment}</Paragraph>
-            </Box>
-          ))}
+          {
+            showTimes.map((showtime, index) => (
+              <Box key={index} flex={false}>
+                <Heading level="4" margin="none">
+                  <Moment format="DD/MM/YYYY HH:mm">{showtime.time}</Moment>
+                  <Button alignSelf='end' label='Submit' onClick={() => {}} />
+
+                </Heading>
+                <Text size="small" color="dark-5">
+                  <TimeAgo date={showtime.time} formatter={formatter}/>
+                </Text>
+                {/*<Rating value={rating} size="small" margin={{ top: "small" }} />*/}
+                {/*<Paragraph size="small">{comment}</Paragraph>*/}
+              </Box>
+            ))
+          }
         </Box>
       </Collapsible>
     );
   };
+
   render() {
-    const { show, isLoading } = this.state;
+    const {show, isLoading} = this.state;
     if (isLoading) {
       return <p>Loading ...</p>;
     }
-    const { onClickFavorite, ...rest } = this.props;
+    const {onClickFavorite, ...rest} = this.props;
     const hasReviews = show.reviews && show.reviews.length;
     console.log(show.title)
     return (
       <Box round="xxsmall" elevation="small" overflow="hidden" {...rest}>
         <Box height="big">
-          <Image src={show.posterPath.lg} fit="contain" />
+          <Image src={show.posterPath.lg} fit="contain"/>
         </Box>
         {this.renderCardHeader()}
         {this.renderShowReviews()}
@@ -215,4 +226,4 @@ class ShowCard extends Component {
   }
 }
 
-export { ShowCard };
+export {ShowCard};

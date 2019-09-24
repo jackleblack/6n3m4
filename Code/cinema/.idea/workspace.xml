@@ -27,6 +27,13 @@
     <expand />
     <select />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="ProjectId" id="1R6hM02e8Q8Lhr1KndHSedvOVF6" />
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
@@ -63,7 +70,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1568993400707</updated>
-      <workItem from="1568993402191" duration="33146000" />
+      <workItem from="1568993402191" duration="35555000" />
     </task>
     <servers />
   </component>
