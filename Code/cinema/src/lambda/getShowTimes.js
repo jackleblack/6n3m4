@@ -3,25 +3,26 @@
 
 import axios from "axios"
 
+let showTimesCache = {}; // Defined outside the function globally
+
 export async function handler(event, context) {
   try {
-    const response = await axios.get("https://www.cinemaspathegaumont.com/api/show/" + event.queryStringParameters.slug + "/showtimes/cinema-pathe-plan-de-campagne/" + event.queryStringParameters.day, {headers: {Accept: "application/json"}})
-    const showTimes = response.data
-    // var result = Object.keys(shows)
-    //   .map(function(key) {
-    //     return {
-    //       name: key,
-    //       ...shows[key]
-    //     };
-    //   });
-
-    // console.log(result);
+    var result = null;
+    if (event.queryStringParameters.slug + '_' + event.queryStringParameters.day in showTimesCache) {
+      console.log(`Cache hit for ${event.queryStringParameters.slug}_${event.queryStringParameters.day}`);
+      result = showTimesCache[event.queryStringParameters.slug + '_' + event.queryStringParameters.day];
+    } else {
+      const response = await axios.get("https://www.cinemaspathegaumont.com/api/show/" + event.queryStringParameters.slug + "/showtimes/cinema-pathe-plan-de-campagne/" + event.queryStringParameters.day, {headers: {Accept: "application/json"}})
+      result = response.data;
+      console.log(`Writing to cache for ${event.queryStringParameters.slug}`);
+      showTimesCache[event.queryStringParameters.slug + '_' + event.queryStringParameters.day] = result;
+    }
     return {
       statusCode: 200,
-      body: JSON.stringify({result: showTimes})
+      body: JSON.stringify({result: result})
     }
-
-  } catch (err) {
+  } catch
+    (err) {
     console.log(err) // output to netlify function log
     return {
       statusCode: 500,
