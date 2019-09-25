@@ -20,7 +20,13 @@ import {
 
 import {Favorite} from "grommet-icons";
 
-import  {Spinner,Rating} from "../components";
+import  {Spinner,Rating, Notification} from "../components";
+
+export const errorNotification = {
+  action: "Oups, try again",
+  date: "",
+  message: "."
+};
 
 const formatter = buildFormatter(frenchStrings)
 
@@ -42,7 +48,7 @@ class ShowCard extends Component {
     showTimes: [],
     day: moment(new Date()),
     isLoading: true,
-    errors: null
+    error: null
   };
 
   componentDidMount() {
@@ -213,9 +219,12 @@ class ShowCard extends Component {
   };
 
   render() {
-    const {show, isLoading} = this.state;
-    if (isLoading) {
+    const {show, isLoading, error} = this.state;
+    if (isLoading ) {
       return <Spinner/>;
+    }
+    if (error || typeof show === 'undefined' ) {
+      return <Notification data={errorNotification} />;
     }
     const {onClickFavorite, ...rest} = this.props;
     return (
