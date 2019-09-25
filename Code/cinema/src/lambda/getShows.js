@@ -18,7 +18,9 @@ export async function handler(event, context) {
       var result = [];
       for (let [key, value] of Object.entries(shows)) {
         const responseDetail = await axios.get("https://www.cinemaspathegaumont.com/api/show/" + key, {headers: {Accept: "application/json"}})
-        result.push(responseDetail.data);
+        if (responseDetail.data.genres !== 'Divers'){
+          result.push(responseDetail.data);
+        }
       }
       result.reverse();
       cache.put('cinema-pathe-plan-de-campagne', result, 28800, function(key, value) {
