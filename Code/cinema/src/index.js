@@ -14,7 +14,7 @@ class App extends Component {
           // appIcon={<Menu />}
           // userSession={userSession}
         />
-        <Box flex overflow="auto" gap="medium" pad="medium">
+        <Box flex overflow="auto" gap="medium" pad="medium" >
           <CinemaCard/>
         </Box>
       </Grommet>

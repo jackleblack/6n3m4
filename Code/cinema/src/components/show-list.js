@@ -33,6 +33,7 @@ class ShowList extends Component {
           >
             {shows.map((show, index) => (
               <ShowCard
+                size={size}
                 key={index}
                 show={show}
                 onClickFavorite={() => this.updateFavorite(index)}

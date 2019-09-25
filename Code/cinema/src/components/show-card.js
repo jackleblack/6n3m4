@@ -220,6 +220,8 @@ class ShowCard extends Component {
 
   render() {
     const {show, isLoading, error} = this.state;
+    const {size} = this.props;
+
     if (isLoading ) {
       return <Spinner/>;
     }
@@ -228,7 +230,7 @@ class ShowCard extends Component {
     }
     const {onClickFavorite, ...rest} = this.props;
     return (
-      <Box width="360px" animation={["fadeIn",  "slideDown"]} round="xsmall" elevation="large" overflow="hidden" {...rest}  border={{ color: 'accent-1', size: 'medium', side: 'bottom' }}
+      <Box width={size !== "small" && "360px"} animation={["fadeIn",  "slideDown"]} round="xsmall" elevation="large" overflow="hidden" {...rest}  border={{ color: 'accent-1', size: 'medium', side: 'bottom' }}
       >
         <Box height="big">
           <Image src={show.posterPath.lg} fit="contain" />
