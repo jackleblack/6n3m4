@@ -7,6 +7,8 @@ import frenchStrings from 'react-timeago/lib/language-strings/fr'
 import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
 import styled, {css} from "styled-components";
 
+import Iframe from 'react-iframe'
+
 import {
   Box,
   Button,
@@ -15,7 +17,9 @@ import {
   Heading,
   Paragraph,
   Text,
-  ThemeContext
+  ThemeContext,
+  Carousel,
+  Layer
 } from "grommet";
 
 import {Favorite} from "grommet-icons";
@@ -43,7 +47,8 @@ const CardFavorite = styled(Favorite)`
 
 class ShowCard extends Component {
   state = {
-    showReviews: false,
+    displayTrailers: false,
+    displayReviews: false,
     isLoadingShowTimes: false,
     show: this.props.show,
     showTimes: [],
@@ -63,7 +68,7 @@ class ShowCard extends Component {
       .then(response => this.setState({
         isLoadingShowTimes: false,
         showTimes: response.result,
-        showReviews: !this.state.showReviews
+        displayReviews: !this.state.displayReviews
       }))
       // Catch any errors we hit and update the app
       .catch(errors => this.setState({errors, isLoadingShowTimes: false}));
@@ -123,8 +128,10 @@ class ShowCard extends Component {
     );
   };
   renderCardFooter = () => {
-    const {show, showReviews} = this.state;
+    const {show, displayReviews} = this.state;
     const {onClickFavorite} = this.props;
+    const hasTrailers = show.trailers && show.trailers.length;
+
     return (
       <ThemeContext.Consumer>
         {theme => (
@@ -145,6 +152,20 @@ class ShowCard extends Component {
                 </Text>
               </Box>
             </Button>
+            {hasTrailers && (
+              <Button
+                a11yTitle={`Trailers for ${show.name}`}
+                onClick={() =>
+                  this.setState({displayTrailers: !this.state.displayTrailers})
+                }
+              >
+                <Box round="small">
+                  <Text color="accent-3" size="small">
+                    <strong>Trailers</strong>
+                  </Text>
+                </Box>
+              </Button>
+            )}
             {onClickFavorite && (
               <Button
                 margin={{right: "small"}}
@@ -165,17 +186,17 @@ class ShowCard extends Component {
     );
   };
   renderShowReviews = () => {
-    const {show, showTimes, showReviews, isLoadingShowTimes, day} = this.state;
+    const {show, showTimes, displayReviews, isLoadingShowTimes, day} = this.state;
     console.log(showTimes)
     return (
-      <Collapsible open={showReviews}>
+      <Collapsible open={displayReviews}>
         <Box
           style={{maxHeight: "240px"}}
           border="top"
           overflow="auto"
           pad="small"
         >
-          <Heading level="3" margin="none">
+          <Heading level="4" margin="none" color="accent-2">
             <Moment format="DD/MM/YYYY">{day}</Moment>
           </Heading>
           {
@@ -205,9 +226,38 @@ class ShowCard extends Component {
     );
   };
 
+  renderShowTrailers = () => {
+    const {show, displayTrailers, day} = this.state;
+    const mainTrailer = show.trailers.find(trailer => trailer.isMain);
+    console.log(show.trailers)
+    return (
+      <Collapsible open={displayTrailers}>
+        <Box
+          style={{maxHeight: "360px"}}
+          border="top"
+          overflow="auto"
+          pad="small"
+        >
+          <Button target={"_blank"} color={"accent-2"} gap={"xxsmall"}
+                  href={"https://player.allocine.fr/" + mainTrailer.externalId + ".html?partner=pathe_gaumont"} >
+            <Heading level="4" margin="none" color="accent-3">
+              {mainTrailer.title}
+            </Heading>
+          </Button>
+          <Iframe url={"https://player.allocine.fr/" + mainTrailer.externalId + ".html?partner=pathe_gaumont"}
+                  width="330px"
+                  height="185px"
+                  display="initial"
+                  position="relative"/>
+        </Box>
+      </Collapsible>
+    );
+  };
+
   render() {
     const {show, isLoading, errors} = this.state;
     const {size} = this.props;
+    const hasTrailers = show.trailers && show.trailers.length;
 
     // if (isLoading ) {
     //   return <Spinner/>;
@@ -225,6 +275,7 @@ class ShowCard extends Component {
         </Box>
         {this.renderCardHeader()}
         {this.renderShowReviews()}
+        {hasTrailers && this.renderShowTrailers()}
 
         {(onClickFavorite) && this.renderCardFooter()}
       </Box>
