@@ -9,9 +9,9 @@ let showsCache = {}; // Defined outside the function globally
 export async function handler(event, context) {
   try {
     var result = null;
-    if (cache.get('cinema-pathe-plan-de-campagne')) {
+    if ('cinema-pathe-plan-de-campagne' in showsCache) {
       console.log(`Cache hit for cinema-pathe-plan-de-campagne`);
-      result = cache.get('cinema-pathe-plan-de-campagne');
+      result = showsCache['cinema-pathe-plan-de-campagne'];
     } else {
       const response = await axios.get("https://www.cinemaspathegaumont.com/api/cinema/cinema-pathe-plan-de-campagne/shows", {headers: {Accept: "application/json"}})
       const shows = response.data.shows
@@ -20,11 +20,9 @@ export async function handler(event, context) {
         const responseDetail = await axios.get("https://www.cinemaspathegaumont.com/api/show/" + key, {headers: {Accept: "application/json"}})
         result.push(responseDetail.data);
       }
-      result.reverse();
-      cache.put('cinema-pathe-plan-de-campagne', result, 28800, function(key, value) {
-        // console.log(key + ' did ' + value);
-        console.log(`Writing to cache for cinema-pathe-plan-de-campagne`);
-      }); // Time in ms
+
+      console.log(`Writing to cache for cinema-pathe-plan-de-campagne`);
+      showsCache['cinema-pathe-plan-de-campagne'] = result.reverse();
     }
     // console.log(result);
     return {

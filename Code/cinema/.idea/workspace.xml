@@ -38,7 +38,7 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JavaScript" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/components/StyledPlaceholderBox" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/lambda" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
@@ -50,9 +50,9 @@
       <recent name="$PROJECT_DIR$/src/components/ListPlaceholder" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/lambda" />
       <recent name="$PROJECT_DIR$/src/components/StyledPlaceholderBox" />
       <recent name="$PROJECT_DIR$/src/components" />
-      <recent name="$PROJECT_DIR$/src/lambda" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -79,7 +79,7 @@
       <option name="presentableId" value="Default" />
       <updated>1568993400707</updated>
       <workItem from="1568993402191" duration="48988000" />
-      <workItem from="1569403772440" duration="5988000" />
+      <workItem from="1569403772440" duration="6632000" />
     </task>
     <servers />
   </component>
@@ -96,7 +96,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/lambda/getShows.js</url>
-          <line>8</line>
+          <line>9</line>
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
