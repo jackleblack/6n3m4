@@ -241,11 +241,11 @@ class ShowCard extends Component {
               {mainTrailer.title}
             </Heading>
           </Button>
-          {/*<Iframe url={"https://player.allocine.fr/" + mainTrailer.externalId + ".html?partner=pathe_gaumont"}*/}
-          {/*        width="330px"*/}
-          {/*        height="185px"*/}
-          {/*        display="initial"*/}
-          {/*        position="relative"/>*/}
+          <Iframe url={"https://player.allocine.fr/" + mainTrailer.externalId + ".html?partner=pathe_gaumont"}
+                  width="330px"
+                  height="185px"
+                  display="initial"
+                  position="relative"/>
         </Box>
       </Collapsible>
     );
