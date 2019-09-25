@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import {render} from "react-dom";
-
 import {grommet, Grid, Grommet, ResponsiveContext, Box, Heading} from "grommet";
-
-import {ShowList,AppHeader} from "./";
+import {ShowList} from "../Show/List";
+import {ShowListPlaceholder} from "../Show/ListPlaceholder";
+import {Notification} from "../Common/Notification";
 
 class CinemaCard extends Component {
   state = {
@@ -21,6 +21,13 @@ class CinemaCard extends Component {
   }
 
   render() {
+    const {shows,isLoading,errors} = this.state;
+    if (isLoading ) {
+      return <ShowListPlaceholder/>;
+    }
+    if (errors ) {
+      return <Notification data={errors} />;
+    }
     return (
       <Box fill>
         <ShowList shows={this.state.shows}/>

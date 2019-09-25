@@ -3,7 +3,14 @@ import {render} from "react-dom";
 
 import {grommet, Grid, Grommet, ResponsiveContext} from "grommet";
 
-import {ShowCard} from "./";
+import {ShowCard} from "./Card";
+
+
+export const errorNotification = {
+  action: "Oups, try again",
+  date: "",
+  message: "Oups, try again"
+};
 
 class ShowList extends Component {
   state = {
@@ -21,8 +28,10 @@ class ShowList extends Component {
   };
 
   render() {
+    const {isLoading, errors} = this.state;
     // const shows = this.props.shows.reverse().slice(0,2);
-    const shows = this.props.shows.reverse();
+    const {shows} = this.props;
+
     return (
       <ResponsiveContext.Consumer>
         {size => (

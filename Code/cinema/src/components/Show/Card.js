@@ -20,12 +20,13 @@ import {
 
 import {Favorite} from "grommet-icons";
 
-import  {Spinner,Rating, Notification} from "../components";
+import {Rating} from "./Rating";
+import {Notification} from "../Common/Notification";
 
 export const errorNotification = {
   action: "Oups, try again",
   date: "",
-  message: "."
+  message: "Oups, try again"
 };
 
 const formatter = buildFormatter(frenchStrings)
@@ -44,34 +45,20 @@ class ShowCard extends Component {
   state = {
     showReviews: false,
     isLoadingShowTimes: false,
-    show: null,
+    show: this.props.show,
     showTimes: [],
     day: moment(new Date()),
     isLoading: true,
-    error: null
+    errors: null
   };
 
   componentDidMount() {
-    this.setShowDetail();
-  }
-
-  componentDidUpdate() {
     // this.setShowDetail();
-  }
-
-  setShowDetail() {
-    if (this.props.show.name && !this.state.show) {
-      fetch("/.netlify/functions/getShow?slug=" + this.props.show.name)
-        .then(response => response.json())
-        .then(response => this.setState({isLoading: false, show: response.result}))
-        // Catch any errors we hit and update the app
-        .catch(error => this.setState({error, isLoading: false}));
-    }
   }
 
   setShowTimes = () => {
     console.log('ici')
-    fetch("/.netlify/functions/getShowTimes?slug=" + this.props.show.name + "&day=" + this.state.day.format('YYYY-MM-DD'))
+    fetch("/.netlify/functions/getShowTimes?slug=" + this.props.show.slug + "&day=" + this.state.day.format('YYYY-MM-DD'))
       .then(response => response.json())
       .then(response => this.setState({
         isLoadingShowTimes: false,
@@ -79,7 +66,7 @@ class ShowCard extends Component {
         showReviews: !this.state.showReviews
       }))
       // Catch any errors we hit and update the app
-      .catch(error => this.setState({error, isLoadingShowTimes: false}));
+      .catch(errors => this.setState({errors, isLoadingShowTimes: false}));
   }
 
   renderCardHeader = () => {
@@ -219,26 +206,27 @@ class ShowCard extends Component {
   };
 
   render() {
-    const {show, isLoading, error} = this.state;
+    const {show, isLoading, errors} = this.state;
     const {size} = this.props;
 
-    if (isLoading ) {
-      return <Spinner/>;
-    }
-    if (error || typeof show === 'undefined' ) {
-      return <Notification data={errorNotification} />;
+    // if (isLoading ) {
+    //   return <Spinner/>;
+    // }
+    if (errors || typeof show === 'undefined') {
+      return <Notification data={errorNotification}/>;
     }
     const {onClickFavorite, ...rest} = this.props;
     return (
-      <Box width={size !== "small" && "360px"} animation={["fadeIn",  "slideDown"]} round="xsmall" elevation="large" overflow="hidden" {...rest}  border={{ color: 'accent-1', size: 'medium', side: 'bottom' }}
+      <Box width={size !== "small" && "360px"} animation={["fadeIn", "slideDown"]} round="xsmall" elevation="large"
+           overflow="hidden" {...rest} border={{color: 'accent-1', size: 'medium', side: 'bottom'}}
       >
         <Box height="big">
-          <Image src={show.posterPath.lg} fit="contain" />
+          <Image src={show.posterPath.lg} fit="contain"/>
         </Box>
         {this.renderCardHeader()}
         {this.renderShowReviews()}
 
-        {( onClickFavorite) && this.renderCardFooter()}
+        {(onClickFavorite) && this.renderCardFooter()}
       </Box>
     );
   }

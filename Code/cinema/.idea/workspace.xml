@@ -38,13 +38,21 @@
   <component name="PropertiesComponent">
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="com.intellij.ide.scratch.LRUPopupBuilder$1/New Scratch File" value="JavaScript" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/lambda" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/src/components/StyledPlaceholderBox" />
     <property name="nodejs_package_manager_path" value="npm" />
   </component>
   <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src/lambda" />
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/Layout" />
+      <recent name="$PROJECT_DIR$/src/components/Common" />
+      <recent name="$PROJECT_DIR$/src/components/Show" />
       <recent name="$PROJECT_DIR$/src/components" />
+      <recent name="$PROJECT_DIR$/src/components/ListPlaceholder" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/components/StyledPlaceholderBox" />
+      <recent name="$PROJECT_DIR$/src/components" />
+      <recent name="$PROJECT_DIR$/src/lambda" />
       <recent name="$PROJECT_DIR$" />
     </key>
   </component>
@@ -70,7 +78,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1568993400707</updated>
-      <workItem from="1568993402191" duration="45773000" />
+      <workItem from="1568993402191" duration="48988000" />
+      <workItem from="1569403772440" duration="5655000" />
     </task>
     <servers />
   </component>
@@ -81,21 +90,18 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/components/cinema-list.js</url>
+          <url>file://$PROJECT_DIR$/src/components/Cinema/List.js</url>
           <line>5</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="2" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/src/lambda/getShows.js</url>
           <line>8</line>
-          <properties lambdaOrdinal="-1" />
           <option name="timeStamp" value="8" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
-          <url>file://$PROJECT_DIR$/src/components/show-card.js</url>
-          <line>198</line>
-          <properties lambdaOrdinal="-1" />
+          <url>file://$PROJECT_DIR$/src/components/Show/Card.js</url>
+          <line>194</line>
           <option name="timeStamp" value="9" />
         </line-breakpoint>
       </breakpoints>
