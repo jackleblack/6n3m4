@@ -107,10 +107,9 @@ class ShowCard extends Component {
           ) : (
             <Box
               round="xsmall"
-              pad={{vertical: "xxsmall", horizontal: "medium"}}
-              background="accent-1"
-            >
-              <Text size="xsmall" color={"light-1"}>
+              pad={{vertical: "xxsmall", horizontal: "small"}}
+              background="accent-1">
+              <Text size="xsmall" color={"light-1"} alignSelf={"center"} weight={"600"}>
                 <Moment format="DD/MM/YYYY">{show.releaseAt}</Moment>
               </Text>
             </Box>
@@ -152,7 +151,7 @@ class ShowCard extends Component {
                 </Text>
               </Box>
             </Button>
-            {hasTrailers && (
+            {!!hasTrailers && (
               <Button
                 a11yTitle={`Trailers for ${show.name}`}
                 onClick={() =>
@@ -229,7 +228,6 @@ class ShowCard extends Component {
   renderShowTrailers = () => {
     const {show, displayTrailers, day} = this.state;
     const mainTrailer = show.trailers.find(trailer => trailer.isMain);
-    console.log(show.trailers)
     return (
       <Collapsible open={displayTrailers}>
         <Box
@@ -275,7 +273,7 @@ class ShowCard extends Component {
         </Box>
         {this.renderCardHeader()}
         {this.renderShowReviews()}
-        {hasTrailers && this.renderShowTrailers()}
+        {(!!hasTrailers) && this.renderShowTrailers()}
 
         {(onClickFavorite) && this.renderCardFooter()}
       </Box>
