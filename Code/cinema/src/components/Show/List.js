@@ -29,7 +29,6 @@ class ShowList extends Component {
 
   render() {
     const {isLoading, errors} = this.state;
-    // const shows = this.props.shows.reverse().slice(0,2);
     const {shows} = this.props;
 
     return (

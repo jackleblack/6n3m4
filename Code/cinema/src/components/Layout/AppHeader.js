@@ -11,7 +11,7 @@ Heading,
 } from "grommet";
 import { Down } from "grommet-icons";
 
-export const AppHeader = ({ appName, appIcon, userSession, open }) => (
+export const AppHeader = ({ appName, appIcon, userSession, open, zone }) => (
   <Box
     flex={false}
     tag="header"
@@ -23,8 +23,11 @@ export const AppHeader = ({ appName, appIcon, userSession, open }) => (
   >
 
 
-        <Heading level="1" margin="none" color={"accent-1"}>{appName}</Heading>
-        <Heading level="3" margin="none" color={"accent-2"}>Plan de campagne</Heading>
+        <Heading level="2" margin="none" color={"accent-1"}>{appName}</Heading>
+        <Text level="3" margin="none" color={"accent-2"}>
+          <span style={{textTransform: 'capitalize'}}>{zone} </span>
+           - Plan de campagne
+      </Text>
 
 {/*     <ResponsiveContext.Consumer> */}
 {/*       {responsive => */}
@@ -56,3 +59,5 @@ export const AppHeader = ({ appName, appIcon, userSession, open }) => (
 {/*     </ResponsiveContext.Consumer> */}
   </Box>
 );
+
+export default AppHeader;

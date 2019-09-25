@@ -109,7 +109,7 @@ class ShowCard extends Component {
               round="xsmall"
               pad={{vertical: "xxsmall", horizontal: "small"}}
               background="accent-1">
-              <Text size="xsmall" color={"light-1"} alignSelf={"center"} weight={"600"}>
+              <Text size="xsmall" color={"light-1"} alignSelf={"center"} weight="bold">
                 <Moment format="DD/MM/YYYY">{show.releaseAt}</Moment>
               </Text>
             </Box>
@@ -186,7 +186,6 @@ class ShowCard extends Component {
   };
   renderShowReviews = () => {
     const {show, showTimes, displayReviews, isLoadingShowTimes, day} = this.state;
-    console.log(showTimes)
     return (
       <Collapsible open={displayReviews}>
         <Box
@@ -242,11 +241,11 @@ class ShowCard extends Component {
               {mainTrailer.title}
             </Heading>
           </Button>
-          <Iframe url={"https://player.allocine.fr/" + mainTrailer.externalId + ".html?partner=pathe_gaumont"}
-                  width="330px"
-                  height="185px"
-                  display="initial"
-                  position="relative"/>
+          {/*<Iframe url={"https://player.allocine.fr/" + mainTrailer.externalId + ".html?partner=pathe_gaumont"}*/}
+          {/*        width="330px"*/}
+          {/*        height="185px"*/}
+          {/*        display="initial"*/}
+          {/*        position="relative"/>*/}
         </Box>
       </Collapsible>
     );
