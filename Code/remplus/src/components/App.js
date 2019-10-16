@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Kanban from "./Kanban";
+import Kanban from "./Goal/Kanban";
 
 class App extends Component {
   render() {

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import Link from "./Link";
+import Card from "./Card";
 import { Query } from "react-apollo";
 import gql from "graphql-tag";
 
@@ -23,7 +23,7 @@ class Kanban extends Component {
           if (loading) return <div>Fetching</div>;
           if (error) return <div>Error</div>;
 
-          const linksToRender = data.users.data;
+          const users = data.users.data;
 
           return (
             // <div>
@@ -44,9 +44,9 @@ class Kanban extends Component {
                   </svg>
                 </div>
                 <div className="text-sm mt-2">
-                  <div className="bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter">
-                    Do a mobile first layout
-                  </div>
+                  {users.map(user => (
+                    <Card key={user.id} user={user} />
+                  ))}
                 </div>
               </div>
               <div className="border-r-2 border-gray-600 bg-grey-light flex-no-shrink w-64 p-2 mr-3">
