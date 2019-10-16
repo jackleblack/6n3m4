@@ -32,7 +32,7 @@ class Kanban extends Component {
             //   ))}
             // </div>
             <div className="flex px-4 pb-8 items-start overflow-x-scroll">
-              <div className="rounded bg-grey-light  flex-no-shrink w-64 p-2 mr-3">
+              <div className="border-r-2 border-gray-600 bg-grey-light  flex-no-shrink w-64 p-2 mr-3">
                 <div className="flex justify-between py-1">
                   <h3 className="text-sm">New landing page</h3>
                   <svg
@@ -47,11 +47,9 @@ class Kanban extends Component {
                   <div className="bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter">
                     Do a mobile first layout
                   </div>
-
-                  <p className="mt-3 text-grey-dark">Add a card...</p>
                 </div>
               </div>
-              <div className="rounded bg-grey-light flex-no-shrink w-64 p-2 mr-3">
+              <div className="border-r-2 border-gray-600 bg-grey-light flex-no-shrink w-64 p-2 mr-3">
                 <div className="flex justify-between py-1">
                   <h3 className="text-sm">Old landing</h3>
                   <svg
@@ -66,11 +64,9 @@ class Kanban extends Component {
                   <div className="bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter">
                     Delete all references from the wiki
                   </div>
-
-                  <p className="mt-3 text-grey-dark">Add a card...</p>
                 </div>
               </div>
-              <div className="rounded bg-grey-light flex-no-shrink w-64 p-2 mr-3">
+              <div className="bg-grey-light flex-no-shrink w-64 p-2 mr-3">
                 <div className="flex justify-between py-1">
                   <h3 className="text-sm">Do more cards</h3>
                   <svg
@@ -85,7 +81,6 @@ class Kanban extends Component {
                   <div className="bg-white p-2 rounded mt-1 border-b border-grey cursor-pointer hover:bg-grey-lighter">
                     Whatever
                   </div>
-                  <p className="mt-3 text-grey-dark">Add a card...</p>
                 </div>
               </div>
             </div>
